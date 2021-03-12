@@ -1,6 +1,12 @@
 /*
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
+ Author:  Richard Tillies
+   Date:  March 12, 2021
+Purpose:  To display students on a webpage, 
+          limited to 9 per page
+          add clickable page numbers below the student list
+          filter students by name via search box
 */
 
 // Global variables and constants
