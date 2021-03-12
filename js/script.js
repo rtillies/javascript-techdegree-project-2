@@ -94,22 +94,24 @@ function addPagination(list) {
     linkList.insertAdjacentHTML('beforeend', button);
   }
 
-  // give the first pagination button a class of "active"
-  document.querySelector('.link-list button').className = 'active';
+  if (numOfPages > 0) {
+      // give the first pagination button a class of "active"
+    document.querySelector('.link-list button').className = 'active';
 
-  // create an event listener on the `link-list` element
-    // if the click target is a button:
-      // remove the "active" class from the previous button
-      // add the active class to the clicked button
-      // call the showPage function passing the `list` parameter and page to display as arguments
-  linkList.addEventListener('click', (event) => {
-    let myTarget = event.target;
-    if (myTarget.tagName === 'BUTTON') {
-      document.querySelector('.active').className = '';
-      myTarget.className = 'active';
-      showPage(list, myTarget.textContent);
-    }
-  });
+    // create an event listener on the `link-list` element
+      // if the click target is a button:
+        // remove the "active" class from the previous button
+        // add the active class to the clicked button
+        // call the showPage function passing the `list` parameter and page to display as arguments
+    linkList.addEventListener('click', (event) => {
+      let myTarget = event.target;
+      if (myTarget.tagName === 'BUTTON') {
+        document.querySelector('.active').className = '';
+        myTarget.className = 'active';
+        showPage(list, myTarget.textContent);
+      }
+    });
+  }
 }
 
 // Add a text search bar to search through student names
@@ -145,7 +147,8 @@ function searchList(searchInput, students) {
   } else if (filtered.length > 0 && searchInput.value.length > 0) {
     showAdd(filtered);
   } else if (filtered.length == 0 && searchInput.value.length > 0) {
-      document.querySelector('.student-list').innerHTML = "No results found!";
+      document.querySelector('.student-list').innerHTML = "<h3>No results found!</h3>";
+      showAdd(filtered);
   }
 }
 
