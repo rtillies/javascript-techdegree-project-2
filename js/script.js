@@ -4,7 +4,6 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 
 // Global variables and constants
-console.log(data);
 const itemsPerPage = 9;
 
 /*
@@ -21,7 +20,6 @@ function showPage(list, page) {
   // create two variables which will represent the index for the first and last student on the page
   let startIndex = page * itemsPerPage - itemsPerPage;
   let endIndex = page * itemsPerPage;
-  console.log(`${startIndex}-${endIndex}`);
 
   // select the element with a class of `student-list` and assign it to a variable
   let studentList = document.querySelector('.student-list');
@@ -61,7 +59,6 @@ function getStudentHTML(student) {
       </div>
     </li>
   `;
-  console.log(html);
   return html;
 }
 
@@ -70,7 +67,6 @@ Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 function addPagination(list) {
-  console.log(list);
   // create a variable to calculate the number of pages needed
   numOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -119,7 +115,6 @@ function addSearchBar() {
       <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
     </label>
   `;
-  console.log(html);
   let header = document.querySelector('.header');
   header.insertAdjacentHTML('beforeend', html);
   return document.querySelector('.student-search');
@@ -142,13 +137,9 @@ function searchList(searchInput, students) {
   if (searchInput.value.length == 0) {
     showAdd(data);
   } else if (filtered.length > 0 && searchInput.value.length > 0) {
-    console.log(`Filtered results: ${filtered.length}`);
     showAdd(filtered);
   } else if (filtered.length == 0 && searchInput.value.length > 0) {
       document.querySelector('.student-list').innerHTML = "No results found!";
-      console.log("No results found!");
-  } else {
-    console.log(`Filtered results: ${filtered.length} ${searchInput.value.length}`);
   }
 }
 
@@ -168,7 +159,4 @@ searchBar.addEventListener('keyup', () => {
   // Invoke your search function here - Arguments: search, tableCells
   const search = document.querySelector('#search');
   searchList(search, data);
-
-  // Helpful log statement to test function
-  console.log('Keyup event on the Search input is functional!');
 });
