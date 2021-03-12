@@ -2,6 +2,8 @@
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
+
+// Global variables and constants
 console.log(data);
 const itemsPerPage = 9;
 
@@ -10,8 +12,6 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
-
-
 
 /*
 Create the `showPage` function
@@ -34,11 +34,15 @@ function showPage(list, page) {
       // inside the conditional:
         // create the elements needed to display the student information
         // insert the above elements
-  for (let i = 0; i < list.length; i++) {
-    if (i >= startIndex && i < endIndex) {
-      let studentItem = list[i];
-      let html = getStudentHTML(studentItem);
-      studentList.insertAdjacentHTML('beforeend', html);
+  if (list.length == 0) {
+    studentList.innerHTML = 'No results found!';
+  } else {
+    for (let i = 0; i < list.length; i++) {
+      if (i >= startIndex && i < endIndex) {
+        let studentItem = list[i];
+        let html = getStudentHTML(studentItem);
+        studentList.insertAdjacentHTML('beforeend', html);
+      }
     }
   }
 }
@@ -60,6 +64,7 @@ function getStudentHTML(student) {
   console.log(html);
   return html;
 }
+
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
@@ -88,7 +93,7 @@ function addPagination(list) {
   }
 
   // give the first pagination button a class of "active"
-  document.querySelector('button').className = 'active';
+  document.querySelector('.link-list button').className = 'active';
 
   // create an event listener on the `link-list` element
     // if the click target is a button:
@@ -103,9 +108,67 @@ function addPagination(list) {
       showPage(list, myTarget.textContent);
     }
   });
+}
 
+// Add a text search bar to search through student names
+function addSearchBar() {
+  let html = `
+    <label for="search" class="student-search">
+      <span>Search by name</span>
+      <input id="search" placeholder="Search by name...">
+      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+    </label>
+  `;
+  console.log(html);
+  let header = document.querySelector('.header');
+  header.insertAdjacentHTML('beforeend', html);
+  return document.querySelector('.student-search');
+}
+
+// searchList function (from Simple Search practice session)
+function searchList(searchInput, students) {
+  // Search the list and add matching students to a new array 
+  let filtered = [];
+  for (let i = 0; i < students.length; i++) {
+    let fullName = `${students[i].name.first.toLowerCase()} ${students[i].name.last.toLowerCase()}`;
+  
+    if (searchInput.value.length > 0 && fullName.includes(searchInput.value.toLowerCase())) {
+        filtered.push(students[i]);
+    }
+  }
+  
+  // if filtered list has items, display filtered students
+  // else if filtered list is empty, display message in browser
+  if (searchInput.value.length == 0) {
+    showAdd(data);
+  } else if (filtered.length > 0 && searchInput.value.length > 0) {
+    console.log(`Filtered results: ${filtered.length}`);
+    showAdd(filtered);
+  } else if (filtered.length == 0 && searchInput.value.length > 0) {
+      document.querySelector('.student-list').innerHTML = "No results found!";
+      console.log("No results found!");
+  } else {
+    console.log(`Filtered results: ${filtered.length} ${searchInput.value.length}`);
+  }
+}
+
+// Run showPage() and addPagination() on given list
+function showAdd(list) {
+  showPage(list, 1);
+  addPagination(list);
 }
 
 // Call functions
-showPage(data, 1);
-addPagination(data);
+showAdd(data);
+let searchBar = addSearchBar();
+
+// Listen for search
+searchBar.addEventListener('keyup', () => {
+
+  // Invoke your search function here - Arguments: search, tableCells
+  const search = document.querySelector('#search');
+  searchList(search, data);
+
+  // Helpful log statement to test function
+  console.log('Keyup event on the Search input is functional!');
+});
